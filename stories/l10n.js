@@ -8,6 +8,8 @@ input =
   .placeholder = Jean Dupont
 greetings = Bonjour, { $name } !
 children = Bonjour, <em l10n="name">monde<em/> !
+prop =
+  .text = Bonjour, monde!
 void =
   .alt = pas d'image
   `,

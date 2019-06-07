@@ -40,6 +40,11 @@ export default {
   beforeDestroy() {
     this.l10n.unsubscribe(this);
   },
+  methods: {
+    relocalize() {
+      this.$forceUpdate();
+    },
+  },
   render($createElement) {
     const slots = this.$scopedSlots.default({});
 
@@ -58,6 +63,8 @@ export default {
     console.log({ t: this });
     console.log({ elem });
     const bundle = this.l10n.getBundle(this.id);
+
+    console.log({ bundle });
 
     if (bundle === null) {
       return elem;
@@ -174,11 +181,6 @@ export default {
       data,
       translatedChildren,
     );
-  },
-  methods: {
-    relocalize() {
-      this.$forceUpdate();
-    },
   },
 };
 </script>

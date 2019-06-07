@@ -1,29 +1,16 @@
 # vue-fluent
 
-## Project setup
+`vue-fluent` is a set of [VueJS](https://vuejs.org/) composants for [Project Fluent](https://projectfluent.org/), a localization system
+for natural-sounding translations.
+
+StoryBook demo : https://texthtml.github.io/vue-fluent/
+
+## Install
+
 ```
-npm install
+npm add @texthtml/vue-fluent
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Usage
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+@todo
