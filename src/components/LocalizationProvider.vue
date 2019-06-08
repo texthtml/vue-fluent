@@ -1,5 +1,5 @@
 <script>
-import VueLocalization from './localization';
+import VueLocalization from '../lib/localization';
 
 export const l10n = Symbol('l10n');
 
