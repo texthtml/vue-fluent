@@ -1,11 +1,13 @@
 {
-  "name": "vue-fluent",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@texthtml/vue-fluent",
+  "version": "0.1.4",
   "scripts": {
     "storybook": "start-storybook -p 6006 --ci",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build": "vue-cli-service build --target lib src/index.js --name vue-fluent"
   },
+  "main": "dist/vue-fluent.umd.min.js",
+  "module": "dist/vue-fluent.common.js",
   "dependencies": {
     "cached-iterable": "^0.3.0",
     "fluent": "^0.12.0",
@@ -23,6 +25,7 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.6",
     "babel-preset-vue": "^2.0.2",
+    "cache-loader": "^4.0.0",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -30,5 +33,10 @@
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.33.0"
-  }
+  },
+  "files": [
+    "dist/*.js",
+    "src/*",
+    "README.md"
+  ]
 }
