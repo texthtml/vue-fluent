@@ -1,10 +1,11 @@
 {
   "name": "@texthtml/vue-fluent",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "scripts": {
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
-    "build": "vue-cli-service build --target lib src/index.js --name vue-fluent"
+    "build": "vue-cli-service build --target lib src/index.js --name vue-fluent",
+    "lint": "eslint --ext ,js,.vue src/ .storybook/ stories/"
   },
   "main": "dist/vue-fluent.umd.min.js",
   "module": "dist/vue-fluent.common.js",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
+    "@storybook/addon-contexts": "^5.1.4",
     "@storybook/addon-knobs": "^5.1.3",
     "@storybook/addon-links": "^5.1.3",
     "@storybook/addon-storysource": "^5.1.3",

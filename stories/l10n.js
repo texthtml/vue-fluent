@@ -38,4 +38,8 @@ export function* generateBundles(userLocales) {
     bundle.addMessages(MESSAGES_ALL[locale]);
     yield bundle;
   }
-};
+}
+
+export function bundleFactory(userLocales) {
+  return generateBundles(userLocales);
+}

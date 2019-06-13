@@ -34,17 +34,6 @@ export default {
     },
   },
   inject: { l10n },
-  mounted() {
-    this.l10n.subscribe(this);
-  },
-  beforeDestroy() {
-    this.l10n.unsubscribe(this);
-  },
-  methods: {
-    relocalize() {
-      this.$forceUpdate();
-    },
-  },
   render($createElement) {
     const slots = this.$scopedSlots.default({});
 

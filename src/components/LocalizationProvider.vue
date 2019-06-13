@@ -13,9 +13,15 @@ export default {
     },
   },
   provide() {
+    this[l10n] = new VueLocalization(this.bundles);
     return {
-      [l10n]: new VueLocalization(this.bundles),
+      [l10n]: this[l10n],
     };
+  },
+  watch: {
+    bundles(bundles) {
+      this[l10n].setBundles(bundles);
+    },
   },
   render() {
     return this.$scopedSlots.default({})
