@@ -1,6 +1,6 @@
 {
   "name": "@texthtml/vue-fluent",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "scripts": {
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
