@@ -68,6 +68,10 @@ export default {
 
     const data = elem.data || {};
 
+    if (data.props === undefined) {
+      data.props = elem.componentOptions ? elem.componentOptions.propsData : {};
+    }
+
     if (msg.attrs) {
       if (this.attrs) {
         if (data.attrs === undefined) {
@@ -82,11 +86,6 @@ export default {
       }
 
       if (this.props) {
-        if (data.props === undefined) {
-          data.props = elem.componentOptions ? elem.componentOptions.propsData : {};
-        }
-
-
         for (const [name, allowed] of Object.entries(this.props)) {
           if (allowed && msg.attrs.hasOwnProperty(name)) {
             data.props[name] = bundle.format(msg.attrs[name], args);
