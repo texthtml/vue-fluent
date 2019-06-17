@@ -83,7 +83,7 @@ export default {
 
       if (this.props) {
         if (data.props === undefined) {
-          data.props = {};
+          data.props = elem.componentOptions ? elem.componentOptions.propsData : {};
         }
 
 
