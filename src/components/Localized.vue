@@ -78,17 +78,21 @@ export default {
           data.attrs = {};
         }
 
-        for (const [name, allowed] of Object.entries(this.attrs)) {
-          if (allowed && msg.attrs.hasOwnProperty(name)) {
-            data.attrs[name] = bundle.format(msg.attrs[name], args);
+        for (const [name, val] of Object.entries(this.attrs)) {
+          const allowed = val === true || typeof val === "string";
+          const key = typeof val === "string" ? val : name;
+          if (allowed && msg.attrs.hasOwnProperty(key)) {
+            data.attrs[name] = bundle.format(msg.attrs[key], args);
           }
         }
       }
 
       if (this.props) {
-        for (const [name, allowed] of Object.entries(this.props)) {
-          if (allowed && msg.attrs.hasOwnProperty(name)) {
-            data.props[name] = bundle.format(msg.attrs[name], args);
+        for (const [name, val] of Object.entries(this.props)) {
+          const allowed = val === true || typeof val === "string";
+          const key = typeof val === "string" ? val : name;
+          if (allowed && msg.attrs.hasOwnProperty(key)) {
+            data.props[name] = bundle.format(msg.attrs[key], args);
           }
         }
       }
