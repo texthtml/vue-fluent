@@ -65,4 +65,16 @@ storiesOf('Fluent', module)
           <span>coucou</span>
         </Localized>
       </Localized>`,
+  }))
+  .add('preserve slot hierarchy', () => ({
+    components: { Localized, SmallCaps },
+    template: `
+      <Localized id="prop" :attrs="{title: 'text'}" :deep="false">
+        <div>
+          <SmallCaps text="ß" />
+          <span>coucou</span>
+          <span>coucou</span>
+        </div>
+      </Localized>
+      `,
   }));

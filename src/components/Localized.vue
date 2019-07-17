@@ -32,6 +32,10 @@ export default {
       type: Object,
       default: null,
     },
+    deep: {
+      type: Boolean,
+      default: true,
+    },
   },
   inject: { l10n },
   render($createElement) {
@@ -98,6 +102,10 @@ export default {
       }
     }
 
+    data.scopedSlots = elem.componentOptions ? {
+      default: () => elem.componentOptions.children,
+    } : {};
+
     const messageValue = bundle.format(msg, args);
 
     if (elem.children !== undefined &&
@@ -110,12 +118,17 @@ export default {
       );
     }
 
+    if (!this.deep) {
+      console.log({tag, data, elem})
+      return $createElement(
+        tag,
+        data,
+        elem.children
+      );
+    }
+
     const parseMarkup = createParseMarkup();
     const translationNodes = parseMarkup(messageValue);
-
-    data.scopedSlots = elem.componentOptions ? {
-      default: () => elem.componentOptions.children,
-    } : {};
 
     const translatedChildren = translationNodes.map((childNode) => {
       if (childNode.nodeType === childNode.TEXT_NODE) {
