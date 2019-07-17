@@ -24,7 +24,7 @@ prop =
   .text = Hello, world!
 void =
   .alt = no image
-quote = “ { $text } ”
+quote = “ { $text } ”
   `,
 };
 
