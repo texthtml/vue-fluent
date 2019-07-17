@@ -119,7 +119,6 @@ export default {
     }
 
     if (!this.deep) {
-      console.log({tag, data, elem})
       return $createElement(
         tag,
         data,

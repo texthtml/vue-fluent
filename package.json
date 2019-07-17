@@ -1,6 +1,6 @@
 {
   "name": "@texthtml/vue-fluent",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "scripts": {
     "storybook": "start-storybook -p 6006 --ci",
     "build-storybook": "build-storybook",
@@ -38,7 +38,6 @@
   },
   "files": [
     "dist/*.js",
-    "src/*",
     "README.md"
   ]
 }
