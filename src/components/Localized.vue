@@ -113,6 +113,10 @@ export default {
     const parseMarkup = createParseMarkup();
     const translationNodes = parseMarkup(messageValue);
 
+    data.scopedSlots = elem.componentOptions ? {
+      default: () => elem.componentOptions.children,
+    } : {};
+
     const translatedChildren = translationNodes.map((childNode) => {
       if (childNode.nodeType === childNode.TEXT_NODE) {
         return childNode.textContent;

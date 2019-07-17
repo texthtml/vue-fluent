@@ -12,6 +12,7 @@ prop =
   .text = Bonjour, monde!
 void =
   .alt = pas d'image
+quote = « { $text } »
   `,
   'en-US': `
 title = Hello, world!
@@ -23,6 +24,7 @@ prop =
   .text = Hello, world!
 void =
   .alt = no image
+quote = “ { $text } ”
   `,
 };
 

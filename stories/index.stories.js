@@ -56,4 +56,13 @@ storiesOf('Fluent', module)
       <Localized id="void" :attrs="{alt: true}">
         <img alt="xxx" />
       </Localized>`,
+  }))
+  .add('nested Localized', () => ({
+    components: { Localized, SmallCaps },
+    template: `
+      <Localized id="prop" :attrs="{_text: 'text'}">
+        <Localized id="quote" _text="test">
+          <span>coucou</span>
+        </Localized>
+      </Localized>`,
   }));
