@@ -60,8 +60,8 @@ storiesOf('Fluent', module)
   .add('nested Localized', () => ({
     components: { Localized, SmallCaps },
     template: `
-      <Localized id="prop" :attrs="{_text: 'text'}">
-        <Localized id="quote" _text="test">
+      <Localized id="prop" :props="{text: (props, val) => ({...props, args: {...props.args || {}, text: val}})}">
+        <Localized id="quote">
           <span>coucou</span>
         </Localized>
       </Localized>`,

@@ -74,19 +74,27 @@ export default {
         data.attrs = {};
       }
 
-      for (const [name, val] of Object.entries(this.attrs)) {
-        const allowed = val === true || typeof val === "string";
-        const key = typeof val === "string" ? val : name;
+      for (const [key, val] of Object.entries(this.attrs)) {
+        const allowed = val === true || typeof val === "string" || typeof val === "function";
+        const name = typeof val === "string" ? val : key;
         if (allowed && msg.attrs.hasOwnProperty(key)) {
-          data.attrs[name] = bundle.format(msg.attrs[key], this.args);
+          if (typeof val === "function") {
+            data.attrs = val(data.attrs, bundle.format(msg.attrs[key], this.args));
+          } else {
+            data.attrs[name] = bundle.format(msg.attrs[key], this.args);
+          }
         }
       }
 
-      for (const [name, val] of Object.entries(this.props)) {
-        const allowed = val === true || typeof val === "string";
-        const key = typeof val === "string" ? val : name;
+      for (const [key, val] of Object.entries(this.props)) {
+        const allowed = val === true || typeof val === "string" || typeof val === "function";
+        const name = typeof val === "string" ? val : key;
         if (allowed && msg.attrs.hasOwnProperty(key)) {
-          data.props[name] = bundle.format(msg.attrs[key], this.args);
+          if (typeof val === "function") {
+            data.props = val(data.props, bundle.format(msg.attrs[key], this.args));
+          } else {
+            data.props[name] = bundle.format(msg.attrs[key], this.args);
+          }
         }
       }
     }
