@@ -1,1 +1,0 @@
-{"version":3,"file":"main.1a7f1e2f01bd29affece.bundle.js","sources":["webpack:///./stories/SmallCaps.js"],"sourcesContent":["export default {\n  name: 'SmallCaps',\n  props: {\n    text: {\n      type: String,\n      default: '♥',\n    },\n  },\n  template: '<span style=\"font-variant: small-caps\" title=\"test\">{{ text }}</span>',\n};\n"],"mappings":"AAAA","sourceRoot":""}
