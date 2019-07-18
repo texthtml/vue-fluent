@@ -21,8 +21,8 @@ export default {
         return {};
       },
     },
-    deep: {
-      type: Boolean,
+    content: {
+      type: [Boolean, String, Function],
       default: true,
     },
   },
@@ -61,33 +61,23 @@ export default {
 
     const msg = bundle.getMessage(this.id);
 
-    if (msg.attrs) {
-      const attrs = Object.entries(this.attrs).reduce((attrs, [key, val]) => {
-        const allowed = val === true || typeof val === "string" || typeof val === "function";
-        if (!allowed || !msg.attrs.hasOwnProperty(key)) {
-          return attrs;
-        }
-
-        if (typeof val === "function") {
-          return {
-            ...attrs,
-            ...val(attrs, bundle.format(msg.attrs[key], this.args)),
-          };
-        }
-
-        return {
-          ...attrs,
-          [typeof val === "string" ? val : key]: bundle.format(msg.attrs[key], this.args),
-        };
-      }, {
+    const attrs = Object.entries(this.attrs).concat([[null, this.content]])
+      .filter(([key, val]) => val !== false && (key === null || msg.attrs.hasOwnProperty(key)))
+      .map(([key, val]) => [
+        key,
+        typeof val === "function" ? val : text => ({[typeof val === "string" ? val : key]: text}),
+      ])
+      .reduce((attrs, [key, cb]) => ({
+        ...attrs,
+        ...cb(bundle.format(key !== null ? msg.attrs[key] : msg, this.args), attrs),
+      }), {
         ...data.props,
         ...data.attrs,
       });
 
-      const props = elem.componentOptions ? elem.componentOptions.Ctor.options.props : {};
-      for (const key in attrs) {
-        data[props[key] !== undefined ? "props" : "attrs"][key] = attrs[key];
-      }
+    const props = elem.componentOptions ? elem.componentOptions.Ctor.options.props : {};
+    for (const key in attrs) {
+      data[props[key] !== undefined ? "props" : "attrs"][key] = attrs[key];
     }
 
 
@@ -109,7 +99,7 @@ export default {
       );
     }
 
-    if (!this.deep) {
+    if (this.content === false) {
       return $createElement(
         tag,
         data,
