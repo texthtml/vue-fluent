@@ -26,11 +26,15 @@ export default {
     },
     attrs: {
       type: Object,
-      default: null,
+      default() {
+        return {};
+      },
     },
     props: {
       type: Object,
-      default: null,
+      default() {
+        return {};
+      },
     },
     deep: {
       type: Boolean,
@@ -77,27 +81,23 @@ export default {
     }
 
     if (msg.attrs) {
-      if (this.attrs) {
-        if (data.attrs === undefined) {
-          data.attrs = {};
-        }
+      if (data.attrs === undefined) {
+        data.attrs = {};
+      }
 
-        for (const [name, val] of Object.entries(this.attrs)) {
-          const allowed = val === true || typeof val === "string";
-          const key = typeof val === "string" ? val : name;
-          if (allowed && msg.attrs.hasOwnProperty(key)) {
-            data.attrs[name] = bundle.format(msg.attrs[key], args);
-          }
+      for (const [name, val] of Object.entries(this.attrs)) {
+        const allowed = val === true || typeof val === "string";
+        const key = typeof val === "string" ? val : name;
+        if (allowed && msg.attrs.hasOwnProperty(key)) {
+          data.attrs[name] = bundle.format(msg.attrs[key], args);
         }
       }
 
-      if (this.props) {
-        for (const [name, val] of Object.entries(this.props)) {
-          const allowed = val === true || typeof val === "string";
-          const key = typeof val === "string" ? val : name;
-          if (allowed && msg.attrs.hasOwnProperty(key)) {
-            data.props[name] = bundle.format(msg.attrs[key], args);
-          }
+      for (const [name, val] of Object.entries(this.props)) {
+        const allowed = val === true || typeof val === "string";
+        const key = typeof val === "string" ? val : name;
+        if (allowed && msg.attrs.hasOwnProperty(key)) {
+          data.props[name] = bundle.format(msg.attrs[key], args);
         }
       }
     }
