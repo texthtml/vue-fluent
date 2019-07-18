@@ -32,7 +32,7 @@ storiesOf('Fluent', module)
       },
     },
     template: `
-      <Localized id="greetings" :_name="name">
+      <Localized id="greetings" :args="{name}">
         <h1>Hello, $name!</h1>
       </Localized>`,
   }))

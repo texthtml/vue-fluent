@@ -2,21 +2,6 @@
 import { l10n } from './LocalizationProvider.vue';
 import createParseMarkup from '../lib/markup';
 
-// @todo: try to get $... attrs before render
-
-function toArguments(props) {
-  const args = {};
-
-  for (const [propname, propval] of Object.entries(props)) {
-    if (propname.startsWith('_')) {
-      const name = propname.substr(1);
-      args[name] = propval;
-    }
-  }
-
-  return args;
-}
-
 export default {
   name: 'Localized',
   props: {
@@ -31,6 +16,12 @@ export default {
       },
     },
     props: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    args: {
       type: Object,
       default() {
         return {};
@@ -65,8 +56,6 @@ export default {
 
     const msg = bundle.getMessage(this.id);
 
-    const args = toArguments(this.$attrs);
-
     const elems = {};
     if (elem.children !== undefined) {
       for (const child of elem.children.filter(({ data }) => data && data.attrs && data.attrs.l10n)) {
@@ -89,7 +78,7 @@ export default {
         const allowed = val === true || typeof val === "string";
         const key = typeof val === "string" ? val : name;
         if (allowed && msg.attrs.hasOwnProperty(key)) {
-          data.attrs[name] = bundle.format(msg.attrs[key], args);
+          data.attrs[name] = bundle.format(msg.attrs[key], this.args);
         }
       }
 
@@ -97,7 +86,7 @@ export default {
         const allowed = val === true || typeof val === "string";
         const key = typeof val === "string" ? val : name;
         if (allowed && msg.attrs.hasOwnProperty(key)) {
-          data.props[name] = bundle.format(msg.attrs[key], args);
+          data.props[name] = bundle.format(msg.attrs[key], this.args);
         }
       }
     }
@@ -106,7 +95,7 @@ export default {
       default: () => elem.componentOptions.children,
     } : {};
 
-    const messageValue = bundle.format(msg, args);
+    const messageValue = bundle.format(msg, this.args);
 
     if (elem.children !== undefined &&
       elem.children.filter(child => child.tag !== undefined).length === 0
