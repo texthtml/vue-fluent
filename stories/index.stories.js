@@ -46,7 +46,7 @@ storiesOf('Fluent', module)
   .add('prop', () => ({
     components: { Localized, SmallCaps },
     template: `
-      <Localized id="prop" :props="{text: true}">
+      <Localized id="prop" :attrs="{text: true}">
         <SmallCaps />
       </Localized>`,
   }))
@@ -60,7 +60,7 @@ storiesOf('Fluent', module)
   .add('nested Localized', () => ({
     components: { Localized, SmallCaps },
     template: `
-      <Localized id="prop" :props="{text: (props, val) => ({...props, args: {...props.args || {}, text: val}})}">
+      <Localized id="prop" :attrs="{text: (attrs, val) => ({args: {...attrs.args || {}, text: val}})}">
         <Localized id="quote">
           <span>coucou</span>
         </Localized>
@@ -69,7 +69,7 @@ storiesOf('Fluent', module)
   .add('preserve slot hierarchy', () => ({
     components: { Localized, SmallCaps },
     template: `
-      <Localized id="prop" :attrs="{title: 'text'}" :deep="false">
+      <Localized id="prop" :attrs="{text: 'title'}" :deep="false">
         <div>
           <SmallCaps text="ß" />
           <span>coucou</span>

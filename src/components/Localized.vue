@@ -15,12 +15,6 @@ export default {
         return {};
       },
     },
-    props: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
     args: {
       type: Object,
       default() {
@@ -46,7 +40,6 @@ export default {
       throw new Error('<Localized/> expected to receive a single node element');
     }
 
-    const tag = elem.componentOptions ? elem.componentOptions.Ctor : elem.tag;
 
     const bundle = this.l10n.getBundle(this.id);
 
@@ -54,14 +47,6 @@ export default {
       return elem;
     }
 
-    const msg = bundle.getMessage(this.id);
-
-    const elems = {};
-    if (elem.children !== undefined) {
-      for (const child of elem.children.filter(({ data }) => data && data.attrs && data.attrs.l10n)) {
-        elems[child.data.attrs.l10n] = child;
-      }
-    }
 
     const data = elem.data || {};
 
@@ -69,41 +54,50 @@ export default {
       data.props = elem.componentOptions ? elem.componentOptions.propsData : {};
     }
 
+    if (data.attrs === undefined) {
+      data.attrs = {};
+    }
+
+
+    const msg = bundle.getMessage(this.id);
+
     if (msg.attrs) {
-      if (data.attrs === undefined) {
-        data.attrs = {};
-      }
-
-      for (const [key, val] of Object.entries(this.attrs)) {
+      const attrs = Object.entries(this.attrs).reduce((attrs, [key, val]) => {
         const allowed = val === true || typeof val === "string" || typeof val === "function";
-        const name = typeof val === "string" ? val : key;
-        if (allowed && msg.attrs.hasOwnProperty(key)) {
-          if (typeof val === "function") {
-            data.attrs = val(data.attrs, bundle.format(msg.attrs[key], this.args));
-          } else {
-            data.attrs[name] = bundle.format(msg.attrs[key], this.args);
-          }
+        if (!allowed || !msg.attrs.hasOwnProperty(key)) {
+          return attrs;
         }
-      }
 
-      for (const [key, val] of Object.entries(this.props)) {
-        const allowed = val === true || typeof val === "string" || typeof val === "function";
-        const name = typeof val === "string" ? val : key;
-        if (allowed && msg.attrs.hasOwnProperty(key)) {
-          if (typeof val === "function") {
-            data.props = val(data.props, bundle.format(msg.attrs[key], this.args));
-          } else {
-            data.props[name] = bundle.format(msg.attrs[key], this.args);
-          }
+        if (typeof val === "function") {
+          return {
+            ...attrs,
+            ...val(attrs, bundle.format(msg.attrs[key], this.args)),
+          };
         }
+
+        return {
+          ...attrs,
+          [typeof val === "string" ? val : key]: bundle.format(msg.attrs[key], this.args),
+        };
+      }, {
+        ...data.props,
+        ...data.attrs,
+      });
+
+      const props = elem.componentOptions ? elem.componentOptions.Ctor.options.props : {};
+      for (const key in attrs) {
+        data[props[key] !== undefined ? "props" : "attrs"][key] = attrs[key];
       }
     }
+
 
     data.scopedSlots = elem.componentOptions ? {
       default: () => elem.componentOptions.children,
     } : {};
 
+
     const messageValue = bundle.format(msg, this.args);
+    const tag = elem.componentOptions ? elem.componentOptions.Ctor : elem.tag;
 
     if (elem.children !== undefined &&
       elem.children.filter(child => child.tag !== undefined).length === 0
@@ -125,6 +119,13 @@ export default {
 
     const parseMarkup = createParseMarkup();
     const translationNodes = parseMarkup(messageValue);
+
+    const elems = {};
+    if (elem.children !== undefined) {
+      for (const child of elem.children.filter(({ data }) => data && data.attrs && data.attrs.l10n)) {
+        elems[child.data.attrs.l10n] = child;
+      }
+    }
 
     const translatedChildren = translationNodes.map((childNode) => {
       if (childNode.nodeType === childNode.TEXT_NODE) {
